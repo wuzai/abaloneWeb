@@ -1,0 +1,168 @@
+extends partials/default
+block PageContent
+  .container-fluid
+    .row-fluid
+      .area-top.clearfix
+        .pull-left.header
+          h3.title
+            i.icon-dashboard
+            | 商户活动
+          h5
+            | 商户发布的活动列表信息
+  .container-fluid.padded
+    !=messages()
+    .row-fluid
+      #breadcrumbs
+        .breadcrumb-button.blue
+          span.breadcrumb-label
+            i.icon-home
+            | 首页
+          span.breadcrumb-arrow
+            span
+        .breadcrumb-button
+          span.breadcrumb-label
+            i.icon-dashboard
+            |  活动列表
+          span.breadcrumb-arrow
+            span
+  #advertisementListDiv.container-fluid.padded
+    .row-fluid
+      .span12
+        .box
+          .box-header
+            span.title 活动信息
+          .box-content
+            table.dTable.responsive
+              thead
+                tr
+                  th #
+                  th
+                    div 活动标题
+                  th
+                    div 活动开始日期
+                  th
+                    div 活动结束日期
+                  th
+                    div 活动发布时间
+                  th
+                    div 发布是否通过
+                  th
+                    div 操作
+              tbody
+                each row, i in advertisements
+                  tr
+                    td
+                      div= i+1
+                    td
+                      div= row.title
+                    td
+                      div= row.fromDate ? row.fromDate : '----'
+                    td
+                      div= row.toDate ? row.toDate : '----'
+                    td
+                      div= row.createdAt
+                    td
+                      div
+                        span(style='display:none')= row.isApproved
+                        - if (row.isApproved)
+                          i.icon-check
+                        - else
+                          i.icon-check-empty
+                    td
+                      .btn-toolbar
+                        .btn-group
+                          a.btn.btn-default(title="编辑", href= webRoot_wehere +'/advertisement/editAdvertisement?advertisementId='+row._id)
+                            i.icon-edit
+                          a.btn.btn-default.destroy(title="删除", href= webRoot_wehere +'/advertisement/advertisementDelete?advertisementId='+row._id)
+                            i.icon-trash
+
+          .box-footer.padded
+            span.pull-right
+              button.btn.btn-blue.btn-small(href="#addAdvertisementDialog",data-toggle="modal")
+                | 新增活动
+
+  #addAdvertisementDialog.modal.hide.wizard-modal.in(style='margin-top: -239px; width: 750px; margin-left: -375px; display: none;', aria-hidden='false')
+    .modal-header
+      button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+      h3 填写活动信息
+    .modal-body
+      .box-content.padded
+        form.separate-sections(method="post", action= webRoot_wehere +'/advertisement/addAdvertisementSave',enctype='multipart/form-data')
+          input(type='hidden',name='merchantId', value= merchantId)
+          .control-group
+            label.control-label 活动标题
+            .input-prepend
+              span.add-on(href='#')
+                i.icon-magic
+              input(type='text',name='title', placeholder='活动标题')
+          .control-group
+            div(style='font-size:14px; display:inline-block;')
+              span 活动所属服务
+              select.input-xlarge(name="serviceItemId")
+                option(value) ---请选择活动所属的服务项目---
+                each row in serviceItems
+                  option(value= row._id)= row.serviceItemName
+          .control-group
+            label.control-label 活动内容
+            textarea#editor_id(name='content', style='width:700px;height:300px;',placeholder='请输入活动内容')
+          .control-group
+            ul.inline
+              li
+                div(style='font-size:14px; display:inline-block;')
+                  span 开始日期
+                  input.datepicker(type='text', data-date-format='yyyy-mm-dd',name='fromDate', placeholder='活动开始日期')
+              li
+                div(style='font-size:14px; display:inline-block;')
+                  span 结束日期
+                  input.datepicker(type='text', data-date-format='yyyy-mm-dd',,name='toDate', placeholder='活动结束日期')
+          .control-group
+            span 活动海报图
+            .controls
+              input(type='file',name='postImage', style='width:200px')
+              span 为了图片显示效果最佳,建议选择图片尺寸为320*330
+          .control-group
+            span 海报视频
+            .controls
+              input.pull-left(type='file',name='videoUrl', style='width:200px',accept="video/quicktime,video/mp4,video/ogg,video/webm")
+              span 视频支持mp4、ogg、webm以及quicktime格式
+          .controls
+            div(style='font-size:14px; display:inline-block;')
+              span 验证是否通过
+              .switch(data-on="danger", data-off="warning",data-on-label="是",data-off-label="否")
+                input(type="checkbox", name="isApproved")
+              span.badge.badge-warning 验证通过就不能更改此项
+    .modal-footer
+      button.btn.btn-primary 保存
+      button.btn(style='color: #333333',aria-hidden='true',data-dismiss='modal')
+        | 关闭
+
+block scripts
+  script
+    $('#advertisementListDiv .destroy').on('click', function (e) {
+      e.preventDefault();
+      if (confirm('确定要删除该条记录?')) {
+        window.location.href = this.href;
+      }
+    });
+    KindEditor.ready(function(K) {
+      window.editor = K.create('#editor_id',{
+          cssPath:'/kindeditor/css/kindeditor-iframe.css',
+          uploadJson : '/kindEditor/nodeJs/upload_json.js?dir=image'
+        }
+      );
+      K('#addAdvertisementDialog .modal-footer button.btn-primary').click(function(e) {
+        editor.sync();
+        var title = $("#addAdvertisementDialog .control-group input[name='title']").val();
+        if(!title.trim()){
+          alert("活动名称不能为空.");
+          return false;
+        }
+        var fromDate = $("#addAdvertisementDialog .control-group input[name='fromDate']").val();
+        var toDate = $("#addAdvertisementDialog .control-group input[name='toDate']").val();
+        if(fromDate && toDate && new Date(fromDate) > new Date(toDate)){
+          alert("活动开始日期不能小于结束日期.");
+          return false;
+        }
+        $("#addAdvertisementDialog form.separate-sections").submit();
+      });
+    });

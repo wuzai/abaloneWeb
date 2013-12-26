@@ -1,0 +1,91 @@
+
+.navbar.navbar-top.navbar-inverse
+  .navbar-inner
+    .container-fluid
+      a.brand(href='/') 贝客汇会员平台系统管理
+      ul.nav.pull-right
+        li.toggle-primary-sidebar.hidden-desktop(data-toggle='collapse', data-target='.nav-collapse-primary')
+          button.btn.btn-navbar(type='button')
+            i.icon-th-list
+        li.collapsed.hidden-desktop(data-toggle='collapse', data-target='.nav-collapse-top')
+          button.btn.btn-navbar(type='button')
+            i.icon-align-justify
+      .nav-collapse.nav-collapse-top
+        - var session_user = request?(request.session?request.session.user:null):null
+        if(session_user)
+          ul.nav.full.pull-right
+            li.dropdown.user-avatar
+              a.dropdown-toggle(href='#', data-toggle='dropdown')
+                span
+                  img.menu-avatar(src= session_user.avatar)
+                  span
+                    span= session_user.userName
+                      i.icon-caret-down
+                  span.badge.badge-dark-red= session_user.messages.length
+              ul.dropdown-menu
+                li.with-image
+                  .avatar
+                    img(src= session_user.avatar)
+                  span= session_user.userName
+                li.divider
+                li
+                  a(href='#')
+                    i.icon-user
+                    span 我的资料
+                li
+                  a(href='#')
+                    i.icon-cog
+                    span 我的设置
+                li
+                  a(href='#')
+                    i.icon-envelope
+                    span 我的消息
+                    span.label.label-dark-red.pull-right= session_user.messages.length
+                li
+                  a(href='/userSignOut')
+                    i.icon-off
+                    span 注销
+        else
+          ul.nav.pull-right
+            li.active
+              a(href='/userSignIn', title='登录')
+                i.icon-home
+                |  登录
+            li
+              a(href='/userSignUp', title='注册')
+                i.icon-user
+                |  注册
+        form.navbar-search.pull-right
+          input.search-query.animated(type='text', placeholder='搜索')
+          i.icon-search
+
+.sidebar-background
+  .primary-sidebar-background
+.primary-sidebar
+  ul.nav.nav-collapse.collapse.nav-collapse-primary
+    - var prefix = gMenus.uriPrefix;
+    - var k = 0;
+    each m in gMenus.appModules
+      - k = k+1;
+      - if(m)
+        li.dark-nav
+          span.glow
+          - if(m.menus.length > 0)
+            a.accordion-toggle.collapsed(data-toggle='collapse', href='#collapse' + k)
+              .nav-icon
+                i.icon-2x(class= m.iconCode)
+              span= m.name
+                .nav-icon
+                  i.icon-caret-down
+            ul.collapse(id='collapse' + k)
+              each menu in m.menus
+                li
+                  a(href= prefix + m.uriRoute + menu.uriRoute)
+                    .nav-menu-icon
+                      i(class= menu.iconCode)
+                    span= menu.name
+          - else
+            a(href= prefix + m.uriRoute)
+              .nav-icon
+                i.icon-2x(class= m.iconCode)
+              span= m.name

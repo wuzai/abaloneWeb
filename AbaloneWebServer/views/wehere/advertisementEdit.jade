@@ -1,0 +1,196 @@
+extends partials/default
+block PageContent
+  .container-fluid
+    .row-fluid
+      .area-top.clearfix
+        .pull-left.header
+          h3.title
+            i.icon-dashboard
+            | 活动信息修改
+          h5
+            | 修改活动的详细信息
+  .container-fluid.padded
+    !=messages()
+    .row-fluid
+      #breadcrumbs
+        .breadcrumb-button.blue
+          span.breadcrumb-label
+            i.icon-home
+            | 首页
+          span.breadcrumb-arrow
+            span
+        .breadcrumb-button
+          span.breadcrumb-label
+            i.icon-dashboard
+            |  活动列表
+          span.breadcrumb-arrow
+            span
+        .breadcrumb-button
+          span.breadcrumb-label
+            i.icon-dashboard
+            |  修改信息
+          span.breadcrumb-arrow
+            span
+  #advertisementEdit.container-fluid.padded
+    .row-fluid
+      .span12
+        .box
+          .box-header
+            span.title= advertisement.advertisementName
+          .box-content
+            form.form-horizontal.fill-up(method="post", action= webRoot_wehere +'/advertisement/editAdvertisementSave',enctype='multipart/form-data')
+              input(type='hidden',name='advertisementId', value= advertisement._id)
+              .padded
+                .control-group
+                  label.control-label 活动标题
+                  .controls
+                    input(type='text',name='title', placeholder='活动标题',value= advertisement.title)
+                .control-group
+                  label.control-label 活动所属服务
+                  .controls
+                    select.input-xlarge(name="serviceItemId",val= advertisement.serviceItem)
+                      option(value) ---请选择活动所属的服务项目---
+                      each row in serviceItems
+                        - if(escape(row._id) == escape(advertisement.serviceItem))
+                          option(selected,value= row._id)= row.serviceItemName
+                        - else
+                          option(value= row._id)= row.serviceItemName
+                .control-group
+                  label.control-label 活动内容
+                  .controls
+                    textarea#editor_content(name='content', style='width:700px;height:300px;',placeholder='请输入活动内容')= advertisement.content
+                .control-group
+                  ul.inline
+                    li
+                      label.control-label 活动开始日期
+                      .controls
+                        input.input-xlarge.datepicker(type='text', data-date-format='yyyy-mm-dd',name='fromDate', placeholder='活动开始日期',value= advertisement.fromDate)
+                    li
+                      label.control-label 活动结束日期
+                      .controls
+                        input.input-xlarge.datepicker(type='text', data-date-format='yyyy-mm-dd',name='toDate', placeholder='活动结束日期',value= advertisement.toDate)
+                .control-group.postImage
+                  .controls
+                    - var postImage = advertisement.postImage?advertisement.postImage.imageUrl:'';
+                    img.img-polaroid.img-rounded(src= imageRoot + postImage,width='220px',height='220px')
+                .control-group
+                  label.control-label 活动海报图
+                  .controls
+                    input(type='file',name='postImage', style='padding-left: 45px;width:300px')
+                    span 为了图片显示效果最佳,建议选择图片尺寸为320*330
+                .control-group.videoUrl(url= advertisement.videoUrl)
+                  .controls
+                    #jp_container.jp_video.jp-video
+                      .jp-type-single
+                        #jquery_jplayer.jp_video.jp-jplayer(style="width:482px;")
+                        .jp-gui
+                          .jp-video-play
+                          .jp-interface
+                            .jp-progress
+                              .jp-seek-bar
+                                .jp-play-bar
+                            .jp-current-time
+                            .jp-duration
+                            .jp-title
+                              ul
+                                li= advertisement.title
+                            .jp-controls-holder
+                              ul.jp-controls
+                                li
+                                  a.jp-play(href='javascript:;', tabindex='1', title='开始') play
+                                li
+                                  a.jp-pause(href='javascript:;', tabindex='1', title='暂停') pause
+                                li
+                                  a.jp-stop(href='javascript:;', tabindex='1', title='停止') stop
+                                li
+                                  a.jp-mute(href='javascript:;', tabindex='1', title='静音') mute
+                                li
+                                  a.jp-unmute(href='javascript:;', tabindex='1', title='取消静音') unmute
+                                li
+                                  a.jp-volume-max(href='javascript:;', tabindex='1', title='最大音量') max volume
+                              .jp-volume-bar
+                                .jp-volume-bar-value
+                              ul.jp-toggles
+                                li
+                                  a.jp-full-screen(href='javascript:;', tabindex='1', title='全屏模式') full screen
+                                li
+                                  a.jp-restore-screen(href='javascript:;', tabindex='1', title='退出全屏模式') restore screen
+                                li
+                                  a.jp-repeat(href='javascript:;', tabindex='1', title='循环播放') repeat
+                                li
+                                  a.jp-repeat-off(href='javascript:;', tabindex='1', title='关闭循环播放') repeat off
+                        .jp-no-solution
+                          span Update Required
+                          | To play the media you will need to either update your browser to a recent version
+                          | or update your
+                          a(href='http://get.adobe.com/flashplayer/', target='_blank') Flash plugin
+                          | .
+
+                .control-group
+                  label.control-label 海报视频
+                  .controls
+                    input(type='file',name='videoUrl', style='padding-left: 45px;width:300px',accept="video/quicktime,video/mp4,video/ogg,video/webm")
+                    span 视频支持mp4、ogg、webm以及quicktime格式
+                .control-group
+                  label.control-label 验证是否通过
+                  .switch(data-on="danger", data-off="warning" ,data-on-label="是",data-off-label="否")
+                    - if(advertisement.isApproved)
+                      input(type="checkbox", name="isApproved",checked,disabled)
+                    - else
+                      input(type="checkbox", name="isApproved")
+                  span.badge.badge-warning 验证通过就不能更改此项
+
+              .form-actions
+                button.btn.btn-blue(type='button') 提交
+                button.btn.btn-default(type='button') 返回
+
+block scripts
+  link(rel="stylesheet", href= webRoot_href + "/3rd/jPlayer/skin/pink.flag/jplayer.pink.flag.css")
+  script(src= webRoot_href + "/3rd/jPlayer/jquery.jplayer.min.js")
+  script(src= webRoot_href + "/3rd/jPlayer/main.js")
+  script
+    $(document).ready(function(){
+      var url = $("#advertisementEdit .control-group.videoUrl").attr('url');
+      if(url){
+        $("#jquery_jplayer.jp_video").jPlayer("setMedia",{
+          m4v:url,
+          ogv:url,
+          mp4:url,
+          webmv:url
+        });
+      }else{
+        $("#advertisementEdit .control-group.videoUrl").hide();
+      }
+    });
+    $("#advertisementEdit .control-group input[name='postImage']").change(function(){
+      $("#advertisementEdit .control-group.postImage").hide();
+    });
+    $("#advertisementEdit .control-group input[name='videoUrl']").change(function(){
+      $("#advertisementEdit .control-group.videoUrl").hide();
+    });
+    var webRoot = $("#webRoot_wehere").val();
+    $("#advertisementEdit .form-actions button.btn-default").click(function(){
+      window.location.href = webRoot +'/advertisement';
+    });
+    KindEditor.ready(function(K) {
+      window.editor = K.create('#editor_content',{
+          cssPath:'/kindeditor/css/kindeditor-iframe.css',
+          uploadJson : '/kindEditor/nodeJs/upload_json.js?dir=image'
+        }
+      );
+      K('#advertisementEdit .form-actions button.btn-blue').click(function(e) {
+        editor.sync();
+        var title = $("#advertisementEdit .control-group input[name='title']").val();
+        if(!title.trim()){
+          alert("活动名称不能为空.");
+          return false;
+        }
+        var fromDate = $("#advertisementEdit .control-group input[name='fromDate']").val();
+        var toDate = $("#advertisementEdit .control-group input[name='toDate']").val();
+        if(fromDate && toDate && new Date(fromDate) > new Date(toDate)){
+          alert("活动开始日期不能小于结束日期.");
+          return false;
+        }
+        $("#advertisementEdit form.form-horizontal").submit();
+      });
+    });

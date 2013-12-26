@@ -1,0 +1,509 @@
+extends ../partials/default
+
+block PageContent
+  .container-fluid
+    .row-fluid
+      .area-top.clearfix
+        .pull-left.header
+          h3.title
+            i.icon-dashboard
+            | 工作面板
+          h5
+            | 常用的工作任务安排汇总列表
+        ul.inline.pull-right.sparkline-box
+          li.sparkline-row
+            h4.blue
+              span 服务
+              | 847
+            .sparkline.big
+              span.peity_bar_good 17,24,19,18,7,28,16
+          li.sparkline-row
+            h4.green
+              span 商户
+              | 223
+            .sparkline.big
+              span.peity_bar_neutral 25,28,21,19,8,6,27
+          li.sparkline-row
+            h4.red
+              span 会员
+              | 7930
+            .sparkline.big
+              span.peity_bar_bad 7,12,14,9,16,15,9,11
+  .container-fluid.padded
+    !=messages()
+    .row-fluid
+      #breadcrumbs
+        .breadcrumb-button.blue
+          span.breadcrumb-label
+            i.icon-home
+            | 首页
+          span.breadcrumb-arrow
+            span
+        .breadcrumb-button
+          span.breadcrumb-label
+            i.icon-dashboard
+            | 工作面板
+          span.breadcrumb-arrow
+            span
+  .container-fluid.padded
+    .row-fluid
+      .span6
+        .box
+          .box-header
+            span.title 待审批商户
+            ul.box-toolbar
+              li
+                span.label.label-green 4
+          .box-content
+            table.table.table-normal
+              thead
+                tr
+                  td
+                  td 商户名称
+                  td 资料完善度
+                  td(style="width: 40px")
+              tbody
+                tr.status-pending
+                  td.icon
+                    i.icon-exchange
+                  td
+                    a(href="#") 测试商户A
+                  td
+                    b 10%
+                  td
+                    .btn-group
+                      button.btn.btn-mini.btn-default.dropdown-toggle(data-toggle="dropdown")
+                        i.icon-cog
+                      ul.dropdown-menu
+                        li
+                          a(href="#") 审核通过
+                        li
+                          a(href="#") 审核驳回
+                        li
+                          a(href="#") 资料不全
+                        li.divider
+                        li
+                          a(href="#") 查看详情
+                tr.status-info
+                  td.icon
+                    i.icon-refresh
+                  td
+                    a(href="#") 测试商户B
+                  td
+                    b 90%
+                  td
+                    .btn-group
+                      button.btn.btn-mini.btn-default.dropdown-toggle(data-toggle="dropdown")
+                        i.icon-cog
+                      ul.dropdown-menu
+                        li
+                          a(href="#") 审核通过
+                        li
+                          a(href="#") 审核驳回
+                        li
+                          a(href="#") 资料不全
+                        li.divider
+                        li
+                          a(href="#") 查看详情
+                tr.status-success
+                  td.icon
+                    i.icon-ok
+                  td
+                    a(href="#") 测试商户C
+                  td
+                    b 100%
+                  td
+                    .btn-group
+                      button.btn.btn-mini.btn-default.dropdown-toggle(data-toggle="dropdown")
+                        i.icon-cog
+                      ul.dropdown-menu
+                        li
+                          a(href="#") 审核通过
+                        li
+                          a(href="#") 审核驳回
+                        li
+                          a(href="#") 资料不全
+                        li.divider
+                        li
+                          a(href="#") 查看详情
+                tr.status-info
+                  td.icon
+                    i.icon-refresh
+                  td
+                    a(href="#") 测试商户D
+                  td
+                    b 30%
+                  td
+                    .btn-group
+                      button.btn.btn-mini.btn-default.dropdown-toggle(data-toggle="dropdown")
+                        i.icon-cog
+                      ul.dropdown-menu
+                        li
+                          a(href="#") 审核通过
+                        li
+                          a(href="#") 审核驳回
+                        li
+                          a(href="#") 资料不全
+                        li.divider
+                        li
+                          a(href="#") 查看详情
+      .span6
+        .box
+          .box-header
+            span.title 待审批服务
+            ul.box-toolbar
+              li
+                span.label.label-blue 134
+          .box-content
+            table.table.table-normal
+              thead
+                tr
+                  td
+                  td 服务项目
+                  td 商户
+                  td(style="width: 40px")
+              tbody
+                tr.status-pending
+                  td.icon
+                    i.icon-exchange
+                  td
+                    a(href="#") 测试服务项目A
+                  td
+                    b 测试商户A
+                  td
+                    .btn-group
+                      button.btn.btn-mini.btn-default.dropdown-toggle(data-toggle="dropdown")
+                        i.icon-cog
+                      ul.dropdown-menu
+                        li
+                          a(href="#") 审核通过
+                        li
+                          a(href="#") 审核驳回
+                        li
+                          a(href="#") 资料不全
+                        li.divider
+                        li
+                          a(href="#") 查看详情
+                tr.status-info
+                  td.icon
+                    i.icon-refresh
+                  td
+                    a(href="#") 测试服务项目B
+                  td
+                    b 测试商户B
+                  td
+                    .btn-group
+                      button.btn.btn-mini.btn-default.dropdown-toggle(data-toggle="dropdown")
+                        i.icon-cog
+                      ul.dropdown-menu
+                        li
+                          a(href="#") 审核通过
+                        li
+                          a(href="#") 审核驳回
+                        li
+                          a(href="#") 资料不全
+                        li.divider
+                        li
+                          a(href="#") 查看详情
+                tr.status-success
+                  td.icon
+                    i.icon-ok
+                  td
+                    a(href="#") 测试服务项目C
+                  td
+                    b 测试商户C
+                  td
+                    .btn-group
+                      button.btn.btn-mini.btn-default.dropdown-toggle(data-toggle="dropdown")
+                        i.icon-cog
+                      ul.dropdown-menu
+                        li
+                          a(href="#") 审核通过
+                        li
+                          a(href="#") 审核驳回
+                        li
+                          a(href="#") 资料不全
+                        li.divider
+                        li
+                          a(href="#") 查看详情
+                tr.status-info
+                  td.icon
+                    i.icon-refresh
+                  td
+                    a(href="#") 测试服务项目D
+                  td
+                    b 测试商户D%
+                  td
+                    .btn-group
+                      button.btn.btn-mini.btn-default.dropdown-toggle(data-toggle="dropdown")
+                        i.icon-cog
+                      ul.dropdown-menu
+                        li
+                          a(href="#") 审核通过
+                        li
+                          a(href="#") 审核驳回
+                        li
+                          a(href="#") 资料不全
+                        li.divider
+                        li
+                          a(href="#") 查看详情
+      .row-fluid
+        .span6
+          .box
+            .box-header
+              span.title 待审批广告
+              ul.box-toolbar
+                li
+                  span.label.label-dark-red 1
+            .box-content
+              table.table.table-normal
+                thead
+                  tr
+                    td #
+                    td 广告名称
+                    td 商户
+                    td 广告类型
+                    td(style="width: 40px")
+                tbody
+                  tr.status-success
+                    td
+                      | 1
+                    td
+                      a(href="#") 测试广告A
+                    td
+                      a(href="#") 测试商户A
+                    td
+                      b 首页海报
+                    td
+                      .btn-group
+                        button.btn.btn-mini.btn-default.dropdown-toggle(data-toggle="dropdown")
+                          i.icon-cog
+                        ul.dropdown-menu
+                          li
+                            a(href="#") 审核通过
+                          li
+                            a(href="#") 审核驳回
+                          li
+                            a(href="#") 资料不全
+                          li.divider
+                          li
+                            a(href="#") 查看详情
+                  tr.status-success
+                    td
+                      | 2
+                    td
+                      a(href="#") 测试广告B
+                    td
+                      a(href="#") 测试商户B
+                    td
+                      b 首页海报
+                    td
+                      .btn-group
+                        button.btn.btn-mini.btn-default.dropdown-toggle(data-toggle="dropdown")
+                          i.icon-cog
+                        ul.dropdown-menu
+                          li
+                            a(href="#") 审核通过
+                          li
+                            a(href="#") 审核驳回
+                          li
+                            a(href="#") 资料不全
+                          li.divider
+                          li
+                            a(href="#") 查看详情
+                  tr.status-success
+                    td
+                      | 3
+                    td
+                      a(href="#") 测试广告C
+                    td
+                      a(href="#") 测试商户C
+                    td
+                      b 首页海报
+                    td
+                      .btn-group
+                        button.btn.btn-mini.btn-default.dropdown-toggle(data-toggle="dropdown")
+                          i.icon-cog
+                        ul.dropdown-menu
+                          li
+                            a(href="#") 审核通过
+                          li
+                            a(href="#") 审核驳回
+                          li
+                            a(href="#") 资料不全
+                          li.divider
+                          li
+                            a(href="#") 查看详情
+                  tr.status-success
+                    td
+                      | 4
+                    td
+                      a(href="#") 测试广告D
+                    td
+                      a(href="#") 测试商户D
+                    td
+                      b 首页海报
+                    td
+                      .btn-group
+                        button.btn.btn-mini.btn-default.dropdown-toggle(data-toggle="dropdown")
+                          i.icon-cog
+                        ul.dropdown-menu
+                          li
+                            a(href="#") 审核通过
+                          li
+                            a(href="#") 审核驳回
+                          li
+                            a(href="#") 资料不全
+                          li.divider
+                          li
+                            a(href="#") 查看详情
+        .span6
+          .box
+            .box-header
+              span.title 新增会员
+              ul.box-toolbar
+                li
+                  span.label.label-dark 331
+            .box-content
+              table.table.table-normal
+                thead
+                  tr
+                    td #
+                    td 会员电话
+                    td 商户
+                    td 加入日期
+                    td(style="width: 40px")
+                tbody
+                  tr.status-success
+                    td
+                      | 1
+                    td
+                      a(href="#") 18655551001
+                    td
+                      a(href="#") 测试商户A
+                    td
+                      b 2013-5-17
+                    td
+                      .btn-group
+                        button.btn.btn-mini.btn-default.dropdown-toggle(data-toggle="dropdown")
+                          i.icon-cog
+                        ul.dropdown-menu
+                          li
+                            a(href="#") 审核通过
+                          li
+                            a(href="#") 审核驳回
+                          li
+                            a(href="#") 资料不全
+                          li.divider
+                          li
+                            a(href="#") 查看详情
+                  tr.status-success
+                    td
+                      | 2
+                    td
+                      a(href="#") 18655551002
+                    td
+                      a(href="#") 测试商户B
+                    td
+                      b 2013-5-17
+                    td
+                      .btn-group
+                        button.btn.btn-mini.btn-default.dropdown-toggle(data-toggle="dropdown")
+                          i.icon-cog
+                        ul.dropdown-menu
+                          li
+                            a(href="#") 审核通过
+                          li
+                            a(href="#") 审核驳回
+                          li
+                            a(href="#") 资料不全
+                          li.divider
+                          li
+                            a(href="#") 查看详情
+                  tr.status-success
+                    td
+                      | 3
+                    td
+                      a(href="#") 18655551003
+                    td
+                      a(href="#") 测试商户C
+                    td
+                      b 2013-5-17
+                    td
+                      .btn-group
+                        button.btn.btn-mini.btn-default.dropdown-toggle(data-toggle="dropdown")
+                          i.icon-cog
+                        ul.dropdown-menu
+                          li
+                            a(href="#") 审核通过
+                          li
+                            a(href="#") 审核驳回
+                          li
+                            a(href="#") 资料不全
+                          li.divider
+                          li
+                            a(href="#") 查看详情
+                  tr.status-success
+                    td
+                      | 4
+                    td
+                      a(href="#") 18655551001
+                    td
+                      a(href="#") 测试商户D
+                    td
+                      b 2013-5-17
+                    td
+                      .btn-group
+                        button.btn.btn-mini.btn-default.dropdown-toggle(data-toggle="dropdown")
+                          i.icon-cog
+                        ul.dropdown-menu
+                          li
+                            a(href="#") 审核通过
+                          li
+                            a(href="#") 审核驳回
+                          li
+                            a(href="#") 资料不全
+                          li.divider
+                          li
+                            a(href="#") 查看详情
+
+block scripts
+  script(type="text/javascript", src= webRoot_href + '/javascripts/excanvas.js')
+  script(type="text/javascript", src= webRoot_href + '/javascripts/jquery.ui.custom.js')
+  script(type="text/javascript", src= webRoot_href + '/javascripts/jquery.peity.js')
+  script(type="text/javascript")
+    $.fn.peity.defaults.pie = {
+      colours: ["#ff9900", "#fff4dd", "#ffd592"],
+      delimiter: null,
+      diameter: 16,
+      height: null,
+      width: null
+    }
+
+    $.fn.peity.defaults.line = {
+      colour: "#c6d9fd",
+      strokeColour: "#4d89f9",
+      strokeWidth: 1,
+      delimiter: ",",
+      height: 30,
+      max: null,
+      min: 0,
+      width: 82
+    }
+
+    $.fn.peity.defaults.bar = {
+      colours: ["#4d89f9"],
+      delimiter: ",",
+      height: 30,
+      max: null,
+      min: 0,
+      spacing: devicePixelRatio || 1,
+      width: 82
+    }
+
+    $(document).ready(function(){
+      $(".peity_bar_good").peity("bar", {colours:["#459D1C"]});
+      $(".peity_bar_bad").peity("bar", {colours:["#BA1E20"]});
+      $(".peity_bar_neutral").peity("bar", {colours:["#757575"]});
+    });
+

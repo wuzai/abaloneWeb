@@ -1,0 +1,132 @@
+extends partials/default
+block PageContent
+  .container-fluid
+    .row-fluid
+      .area-top.clearfix
+        .pull-left.header
+          h3.title
+            i.icon-dashboard
+            | 商户信息修改
+          h5
+            | 修改商户的详细信息
+  .container-fluid.padded
+    !=messages()
+    .row-fluid
+      #breadcrumbs
+        .breadcrumb-button.blue
+          span.breadcrumb-label
+            i.icon-home
+            | 首页
+          span.breadcrumb-arrow
+            span
+        .breadcrumb-button
+          span.breadcrumb-label
+            i.icon-dashboard
+            |  商户详情
+          span.breadcrumb-arrow
+            span
+        .breadcrumb-button
+          span.breadcrumb-label
+            i.icon-dashboard
+            |  修改信息
+          span.breadcrumb-arrow
+            span
+  #merchantEdit.container-fluid.padded
+    .row-fluid
+      .span12
+        .box
+          .box-header
+            span.title= merchant.merchantName
+          .box-content
+            form.form-horizontal.fill-up(method="post", action= webRoot_wehere +'/merchant/editSave',enctype='multipart/form-data')
+              input(type='hidden',name='merchantId', value= merchant._id)
+              .padded
+                .control-group
+                  label.control-label 商户名称
+                  .controls
+                    input(type='text',name='merchantName', placeholder='商户名称',value= merchant.merchantName)
+                .control-group
+                  label.control-label 描述信息
+                  .controls
+                    textarea(name='description', rows='3',style='width: 100%;',placeholder='商户描述信息')= merchant.description
+                .control-group
+                  label.control-label 客服电话
+                  .controls
+                    input(type='text',name='customerServicePhone', placeholder='客服电话',value= merchant.customerServicePhone)
+                .control-group
+                  div
+                    label.control-label(style="margin-right:15px") 是否公开客服电话
+                  .switch(data-on="danger", data-off="warning",data-on-label="公开",data-off-label="不公开")
+                    - if(merchant.isPublicTel)
+                      input(type="checkbox", name="isPublicTel",checked)
+                    - else
+                      input(type="checkbox", name="isPublicTel")
+                .control-group
+                  label.control-label 商户网站
+                  .controls
+                    input(type='text',name='webSite', placeholder='商户网站',value= merchant.webSite)
+                .control-group
+                  label.control-label 兑换率
+                  .controls
+                    input(type='number',min='0',step='10',name='rate', placeholder='兑换率(比如:100,表示100会员积分=1平台积分,0表示禁用兑换功能)',value= merchant.rate)
+                .control-group
+                  label.control-label 兑换说明
+                  .controls
+                    textarea(name='rateExplain', rows='3',style='width:100%;',placeholder='兑换说明')= merchant.rateExplain
+                .control-group
+                  label.control-label 会员积分使用说明
+                  .controls
+                    textarea(name='useExplain', rows='3',style='width:100%;',placeholder='会员积分使用说明')= merchant.useExplain
+                .control-group
+                  label.control-label 会员积分转赠说明
+                  .controls
+                    textarea(name='largessExplain', rows='3',style='width:100%;',placeholder='会员积分转赠说明')= merchant.largessExplain
+                .control-group.logoImage
+                  .controls
+                    - var logoImage = [ imageRoot , merchant.logoImage?merchant.logoImage.imageUrl:''].join('');
+                    img.img-polaroid.img-rounded(src= logoImage,width='240px',height='150px')
+                .control-group
+                  label.control-label 网站logo
+                  .controls
+                    input(type='file',name='logoImage', style='padding-left: 45px;width:50%')
+                    span 为了图片显示效果最佳,建议选择图片尺寸为320*200
+                .control-group
+                  label.control-label 商户介绍
+                  .controls
+                    textarea#editor_intro(name='intro', style='width:100%;height:300px;',placeholder='商户简介')= merchant.intro
+              .form-actions
+                button.btn.btn-blue(type='button') 提交
+                button.btn.btn-default(type='button') 返回
+
+block scripts
+  script
+    $("#merchantEdit .control-group input[name='logoImage']").change(function(){
+      $("#merchantEdit .control-group.logoImage").hide();
+    });
+    var webRoot = $("#webRoot_wehere").val();
+    $("#merchantEdit .form-actions button.btn-default").click(function(){
+      window.location.href = webRoot +'/merchant/info';
+    });
+    $("#merchantEdit .form-actions button.btn-blue").click(function() {
+      var merchantName = $('#merchantEdit form.form-horizontal input[name="merchantName"]').val();
+      if(!merchantName.trim()){
+        alert("商户名称不能为空.");
+        return false;
+      }
+      var telephone = $('#merchantEdit form.form-horizontal input[name="customerServicePhone"]').val();
+      if(telephone.trim()&&!isPhone(telephone.trim())){
+        alert("客服电话输入错误,请重新输入.");
+        return false;
+      }
+      var webSite = $('#merchantEdit form.form-horizontal input[name="webSite"]').val();
+      if(webSite.trim()&&!isUrl(webSite.trim())){
+        alert("网站地址输入错误,请重新输入.");
+        return false;
+      }
+      var rate = $('#merchantEdit form.form-horizontal input[name="rate"]').val();
+      if(rate&&!isInteger(rate)){
+        alert("积分兑换率必须是整数,请重新输入.");
+        return false;
+      }
+      $("#merchantEdit form.form-horizontal").submit();
+    });
